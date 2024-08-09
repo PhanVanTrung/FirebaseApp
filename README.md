@@ -1,0 +1,2 @@
+# FirebaseApp
+firebase with vite
