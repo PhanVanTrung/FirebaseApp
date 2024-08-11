@@ -11,8 +11,13 @@ firebase with vite
 - https://firebase.google.com/docs/reference/js/database.md?authuser=0#onchildadded_139c747
 - https://github.com/firebase/snippets-web/blob/2117c619ce49b08d582f282e7d2ec798f5105c3d/snippets/database-next/lists-of-data/rtdb_social_listen_children.js#L8-L22
 
+Login Firebase
+- https://firebase.google.com/docs/auth
+- https://github.com/firebase/firebaseui-web
+- https://firebase.google.com/docs/auth/web/password-auth#before_you_begin
+- https://firebase.google.com/docs/auth/web/firebaseui
 
-firebase with vuefire
+firebase with vue
 - https://vuefire.vuejs.org/guide/getting-started.html
 - icons: https://vuetifyjs.com/en/components/icons/#font-awesome
 - card component: https://vuetifyjs.com/en/components/cards/#weather-card
