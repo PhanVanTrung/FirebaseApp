@@ -1,77 +1,101 @@
 <template>
-<!-- START Firebaseui section -->
-  <!-- The surrounding HTML is left untouched by FirebaseUI.
-      Your app may use that space for branding, controls and other customizations.-->
-  <h1>Welcome to My Awesome App</h1>
-  <div id="firebaseui-auth-container"></div>
-  <div id="loader">Loading...</div>
-<!-- END Firebaseui section -->
+  <v-card id="signInForm">
+    <v-form ref="form" >
+      <v-container>
+        <v-row no-gutters>
+          <v-col>
+            <v-alert color="error" :value="responseStatus !== ''">{{
+              responseStatus
+            }}</v-alert>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="email"
+              label="Email"
+              type="email"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <v-row no-gutters>
+          <v-col>
+            <v-text-field
+              v-model="password"
+              label="Password"
+              type="password"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
+
+    <v-card-actions>
+      <v-container>
+        <v-row justify="end" align="center" class="ma-0">
+          <v-col cols="auto" class="ma-0 pa-0">
+            <v-btn color="primary" @click="signInWithEmailPassword">Log in</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script setup>
 import firebase from 'firebase/compat/app';
-import * as firebaseui from 'firebaseui';
-import 'firebaseui/dist/firebaseui.css';
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { ref } from 'vue';
+import { useAppStore } from '../stores/app'
+import { useRouter } from "vue-router";
 
-// Initialize the FirebaseUI Widget using Firebase.
-const ui = new firebaseui.auth.AuthUI(firebase.auth());
-// firebaseui config
-var uiConfig = {
-  callbacks: {
-    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-      // User successfully signed in.
-      // Return type determines whether we continue the redirect automatically
-      // or whether we leave that to developer to handle.
-      return true;
-    },
-    uiShown: function() {
-      // The widget is rendered.
-      // Hide the loader.
-      document.getElementById('loader').style.display = 'none';
-    }
-  },
-  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-  signInFlow: 'popup',
-  signInSuccessUrl: '<url-to-redirect-to-on-success>',
-  signInOptions: [
-    // Leave the lines as is for the providers you want to offer your users.
-    {
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      requireDisplayName: false
-    }
-  ],
-  // Terms of service url.
-  tosUrl: '<your-tos-url>',
-  // Privacy policy url.
-  privacyPolicyUrl: '<your-privacy-policy-url>'
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDc--387sq_sqsmMWzTIzQvZd-g4-aVMKY",
+  authDomain: "gsmtest-9f523.firebaseapp.com",
+  databaseURL: "https://gsmtest-9f523-default-rtdb.firebaseio.com",
+  projectId: "gsmtest-9f523",
+  storageBucket: "gsmtest-9f523.appspot.com",
+  messagingSenderId: "30656126464",
+  appId: "1:30656126464:web:a925a0e4d20a5a32a442e5",
 };
-ui.start('#firebaseui-auth-container', uiConfig);
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const auth = getAuth();
+const email= ref('');
+const password= ref('');
+const responseStatus=ref("");
+
+const appStore = useAppStore()
+const router = useRouter()
 
 function signInWithEmailPassword() {
-  const email = "test@example.com";
-  const password = "hunter2";
-
   // [START auth_signin_password]
-  const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
-
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
+  signInWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
-      // Signed in 
+      // User signed in successfully
       const user = userCredential.user;
-      // ...
+      console.log("User signed in:", user);
+      responseStatus.value = `User signed in ${user}`
+      appStore.setFbLogedInUser(user);
+      // Redirect to the desired page or perform other actions
+      router.push("/")
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      // Handle sign-in errors
+      responseStatus.value = `Sign-in error: ${error.code}, ${error.message}`
+      appStore.setFbLogedInUser(undefined);
     });
   // [END auth_signin_password]
 }
 
 function signUpWithEmailPassword() {
-  const email = "test@example.com";
-  const password = "hunter2";
-
   // [START auth_signup_password]
   const { getAuth, createUserWithEmailAndPassword } = require("firebase/auth");
 
@@ -123,16 +147,4 @@ function sendPasswordReset() {
   // [END auth_send_password_reset]
 }
 
-function signOut() {
-  // [START auth_sign_out]
-  const { getAuth, signOut } = require("firebase/auth");
-
-  const auth = getAuth();
-  signOut(auth).then(() => {
-    // Sign-out successful.
-  }).catch((error) => {
-    // An error happened.
-  });
-  // [END auth_sign_out]
-}
 </script>

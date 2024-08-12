@@ -17,6 +17,10 @@ Login Firebase
 - https://firebase.google.com/docs/auth/web/password-auth#before_you_begin
 - https://firebase.google.com/docs/auth/web/firebaseui
 
+- login form: https://gist.github.com/brokenthorn/e7fa5bd6d2f9b5ead96bc6cf7d04fb14
+- stores pinia: https://pinia.vuejs.org/introduction.html
+- global state: https://blog.logrocket.com/authentication-vue-3-firebase/#managing-state-vuex
+
 firebase with vue
 - https://vuefire.vuejs.org/guide/getting-started.html
 - icons: https://vuetifyjs.com/en/components/icons/#font-awesome

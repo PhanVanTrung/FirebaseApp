@@ -65,6 +65,7 @@
 </template>
 
 <script setup>
+  import firebase from 'firebase/compat/app';
   import { initializeApp } from "firebase/app";
   import {
     getDatabase,
@@ -94,7 +95,7 @@
   // // Initialize Realtime Database and get a reference to the service
   const fbDb = getDatabase(fbApp);
   const fbDbRef = fbRef(fbDb);
-  
+
   async function getAllDevices() {
     let snapshot = await get(child(fbDbRef, "/"))
       .then((snapshot) => {
@@ -126,8 +127,4 @@
     // override device object on fb
     set(fbRef(fbDb, `${device.name}/`), device);
   };
-
-  onMounted(async () => {
-    console.log(devices.value);
-  })
 </script>
