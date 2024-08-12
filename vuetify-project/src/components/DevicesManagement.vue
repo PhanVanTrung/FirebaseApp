@@ -31,9 +31,14 @@
                           </v-col>
 
                           <v-col class="text-right" cols="6">
-                            <v-icon
-                              :color="`${devices[index]?.stateTB?.state??0==0?'red':'green'}`"
-                              :icon="`${devices[index]?.stateTB?.state??0==0?'mdi-cloud-off-outline':'mdi-cloud-check-variant-outline'}`"
+                            <v-icon v-if="devices[index]?.online??0==0"
+                              color="red"
+                              icon="mdi-cloud-off-outline"
+                              size="68"
+                            ></v-icon>
+                            <v-icon v-else
+                              color="green"
+                              icon="mdi-cloud-check-variant-outline"
                               size="68"
                             ></v-icon>
                           </v-col>
@@ -78,7 +83,7 @@
     onChildChanged,
     onChildRemoved,
   } from "firebase/database";
-  import { ref, watch, onMounted } from 'vue';
+  import { ref, watch, onMounted, onUnmounted, computed, nextTick } from 'vue';
 
   const firebaseConfig = {
     apiKey: "AIzaSyDc--387sq_sqsmMWzTIzQvZd-g4-aVMKY",
@@ -113,7 +118,7 @@
     for (var key in snapshot) {
       if (Object.prototype.hasOwnProperty.call(snapshot, key)) {
           var val = snapshot[key];
-          allDevices.push({...val, name: key})
+          allDevices.push({...val, name: key, online: 0})
       }
     }
 
@@ -127,4 +132,26 @@
     // override device object on fb
     set(fbRef(fbDb, `${device.name}/`), device);
   };
+
+  let intervalId = undefined;
+  onMounted(() => {
+    intervalId = setInterval(async () => {
+      await checkDevicesState();
+    }, 5000)
+  });
+
+  async function checkDevicesState() {
+    const latestDevices = await getAllDevices();
+      for (let device of latestDevices) {
+        const oldDevice = devices.value.find((d) => d.name == device.name);
+        let online = oldDevice.stateTB?.state == device.stateTB?.state ? 0 : 1;
+        device.online = 1
+      };
+
+      devices.value = latestDevices;
+      await nextTick();
+      // Now DOM is updated
+  }
+
+  onUnmounted(() => clearInterval(intervalId))
 </script>

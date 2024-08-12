@@ -21,7 +21,7 @@
   import { getAuth, signOut  } from "firebase/auth";
   import { useRouter } from "vue-router";
   import { useAppStore } from "./stores/app"
-  import { ref, computed } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
 
   const router = useRouter()
 
