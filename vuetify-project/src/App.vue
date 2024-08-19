@@ -22,18 +22,9 @@
   import { useRouter } from "vue-router";
   import { useAppStore } from "./stores/app"
   import { ref, computed, onMounted } from 'vue';
+  import { firebaseConfig } from '@root/firebaseConfig';
 
   const router = useRouter()
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDc--387sq_sqsmMWzTIzQvZd-g4-aVMKY",
-    authDomain: "gsmtest-9f523.firebaseapp.com",
-    databaseURL: "https://gsmtest-9f523-default-rtdb.firebaseio.com",
-    projectId: "gsmtest-9f523",
-    storageBucket: "gsmtest-9f523.appspot.com",
-    messagingSenderId: "30656126464",
-    appId: "1:30656126464:web:a925a0e4d20a5a32a442e5",
-  };
 
   const fbApp = initializeApp(firebaseConfig);
   const auth = getAuth();
