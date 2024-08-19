@@ -1,4 +1,15 @@
 # FirebaseApp
+
+## How to run:
+> cd vuetify-project
+
+> npm install
+
+> npm run dev
+
+----
+
+## References:
 firebase with vite
 
 - https://github.com/mdn/js-examples/blob/main/module-examples/module-objects/index.html
