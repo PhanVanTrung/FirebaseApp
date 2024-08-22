@@ -35,17 +35,17 @@ jobs:
       run: npm install
     - name: Build App
       # working-directory: ./vuetify-project
-      run: npm run build --if-present --base=/FirebaseApp/
+      run: npm run build --if-present
     # - run: npm test
     - name: Archive artifact
       shell: sh
       run: |
         tar \
           --dereference --hard-dereference \
-          --directory "dist" \
           -cvf "$RUNNER_TEMP/artifact.tar" \
           --exclude=.git \
           --exclude=.github \
+          --include="dist/*" \
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
