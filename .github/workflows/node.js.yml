@@ -37,7 +37,7 @@ jobs:
       run: npm install
     - name: Build App
       # working-directory: ./vuetify-project
-      run: npm run build --if-present
+      run: npm run build --if-present --base=/FirebaseApp/
 
     # - name: Archive artifact
     #   shell: sh
