@@ -1,5 +1,5 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyDc--387sq_sqsmMWzTIzQvZd-g4-aVMKY",
+    apiKey: "AIzaSyB7IVQ4yiqS_DvZc-7SgVQO8LdVCyO2SCw",
     authDomain: "giamsattudien.firebaseapp.com",
     databaseURL: "https://giamsattudien-default-rtdb.firebaseio.com",
     projectId: "giamsattudien",
