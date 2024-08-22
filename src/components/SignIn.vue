@@ -71,7 +71,7 @@ function signInWithEmailPassword() {
     .then((userCredential) => {
       // User signed in successfully
       const user = userCredential.user;
-      console.log("User signed in:", user);
+      // console.log("User signed in:", user);
       responseStatus.value = `User signed in ${user}`
       appStore.setFbLogedInUser(user);
       // Redirect to the desired page or perform other actions

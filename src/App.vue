@@ -43,7 +43,7 @@
         var phoneNumber = user.phoneNumber;
         var providerData = user.providerData;
         user.getIdToken().then(function(accessToken) {
-          console.log(accessToken)
+          // console.log(accessToken)
         });
         appStore.setFbLogedInUser(user);
         // userLoggedIn.value = true;

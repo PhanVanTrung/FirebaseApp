@@ -1,3 +1,4 @@
+# https://vitejs.dev/guide/static-deploy.html#github-pages
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
@@ -27,6 +28,16 @@ jobs:
     - name: Check tar installation
       run: tar --version
     - uses: actions/checkout@v4
+    - name: Replace placeholders with secrets
+      run: |
+        sed -i 's/\${{ secrets.API_KEY }}/'"${{ secrets.API_KEY }}"'/g' firebaseConfig.json
+        sed -i 's/\${{ secrets.AUTH_DOMAIN }}/'"${{ secrets.AUTH_DOMAIN }}"'/g' firebaseConfig.json
+        sed -i 's/\${{ secrets.DATABASE_URL }}/'"${{ secrets.DATABASE_URL }}"'/g' firebaseConfig.json
+        sed -i 's/\${{ secrets.PROJECT_ID }}/'"${{ secrets.PROJECT_ID }}"'/g' firebaseConfig.json
+        sed -i 's/\${{ secrets.STORAGE_BUCKET }}/'"${{ secrets.STORAGE_BUCKET }}"'/g' firebaseConfig.json
+        sed -i 's/\${{ secrets.MESSAGING_SENDER_ID }}/'"${{ secrets.MESSAGING_SENDER_ID }}"'/g' firebaseConfig.json
+        sed -i 's/\${{ secrets.APP_ID }}/'"${{ secrets.APP_ID }}"'/g' firebaseConfig.json
+        sed -i 's/\${{ secrets.MEASUREMENT_ID }}/'"${{ secrets.MEASUREMENT_ID }}"'/g' firebaseConfig.json
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       # with:
